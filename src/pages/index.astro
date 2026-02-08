@@ -1,0 +1,11 @@
+---
+import { supabase } from "../lib/supabase";
+
+const { data } = await supabase.from("plantillas").select("*").limit(5);
+---
+
+<ul>
+  {data?.map(p => (
+    <li>{p.aplicativo} - {p.solicitud}</li> <li>{p.servicio} - {p.resumen}</li> <li>{p.cierre} - {p.observacion}</li>
+  ))}
+</ul>

@@ -1,0 +1,54 @@
+---
+import DashboardLayout from "../layouts/DashboardLayout.astro";
+import { supabase } from "../lib/supabase";
+
+const { data } = await supabase.from("plantillas").select("*").limit(30);
+---
+
+<DashboardLayout>
+  <h1>📄 Módulo Plantillas</h1>
+
+  <input id="search" placeholder="Buscar en todo..." />
+
+  <table>
+    <thead>
+      <tr>
+        <th>Aplicativo</th>
+        <th>Solicitud</th>
+        <th>Resumen</th>
+        <th>Cierre</th>
+      </tr>
+    </thead>
+    <tbody id="body">
+      {data?.map(p => (
+        <tr>
+          <td>{p.aplicativo}</td>
+          <td>{p.solicitud}</td>
+          <td>{p.resumen}</td>
+          <td>{p.cierre}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</DashboardLayout>
+
+<script is:inline>
+  const input = document.getElementById("search");
+  const body = document.getElementById("body");
+
+  input.addEventListener("input", async (e) => {
+    const q = e.target.value;
+
+    const res = await fetch(`/api/plantillas?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+
+    body.innerHTML = data.map(p => `
+      <tr>
+        <td>${p.aplicativo ?? ""}</td>
+        <td>${p.solicitud ?? ""}</td>
+        <td>${p.resumen ?? ""}</td>
+        <td>${p.cierre ?? ""}</td>
+      </tr>
+    `).join("");
+  });
+</script>

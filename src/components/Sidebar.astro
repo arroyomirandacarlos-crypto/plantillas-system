@@ -1,26 +1,57 @@
-<style>
-  .sidebar {
-    width: 260px;
-    background: #0f172a;
-    color: white;
-    height: 100vh;
-    padding: 20px;
-    position: fixed;
-  }
-  .item {
-    padding: 10px;
-    border-radius: 6px;
-    margin: 6px 0;
-    cursor: pointer;
-  }
-  .item:hover {
-    background: #1e293b;
-  }
-</style>
+<nav class="sidebar">
+  <h2>Sistema</h2>
 
-<div class="sidebar">
-  <h2>🚀 Sistema</h2>
-  <div class="item" onclick="location.href='/plantillas'">📄 Plantillas</div>
-  <div class="item" onclick="location.href='/speech'">🎤 Speech</div>
-  <div class="item" onclick="location.href='/consultas'">🔍 Consultas</div>
-</div>
+  <a href={`${import.meta.env.BASE_URL}plantillas`}> Plantillas</a>
+  <a href={`${import.meta.env.BASE_URL}speech`}> Speech</a>
+  <a href={`${import.meta.env.BASE_URL}consultas`}>  Consultas</a>
+</nav>
+
+<style>
+.sidebar {
+  width: 220px;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: white;
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+a {
+  border-radius: 8px;
+}
+
+a:hover {
+  background: rgba(255,255,255,.08);
+}
+.sidebar a:hover {
+  background: #1e293b;
+  color: white;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -220px;
+    transition: 0.3s;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+}
+</style>

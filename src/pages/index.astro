@@ -1,11 +1,8 @@
 ---
-import { supabase } from "../lib/supabase";
-
-const { data } = await supabase.from("plantillas").select("*").limit(5);
+import DashboardLayout from "../layouts/DashboardLayout.astro";
 ---
 
-<ul>
-  {data?.map(p => (
-    <li>{p.aplicativo} - {p.solicitud}</li> <li>{p.servicio} - {p.resumen}</li> <li>{p.cierre} - {p.observacion}</li>
-  ))}
-</ul>
+<DashboardLayout>
+  <h1>Bienvenido </h1>
+  <p>Selecciona un módulo del sidebar.</p>
+</DashboardLayout>

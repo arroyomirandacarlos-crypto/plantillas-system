@@ -1,20 +1,16 @@
 import { supabase } from "../../lib/supabase";
 
-export async function GET({ url }) {
-  const q = url.searchParams.get("q") || "";
-
-  const { data } = await supabase
-    .from("plantillas")
+export async function GET() {
+  const { data, error } = await supabase
+    .from("tmplates")
     .select("*")
-    .or(`
-      aplicativo.ilike.%${q}%,
-      solicitud.ilike.%${q}%,
-      servicio.ilike.%${q}%,
-      resumen.ilike.%${q}%,
-      cierre.ilike.%${q}%,
-      observacion.ilike.%${q}%
-    `)
-    .limit(50);
+    .limit(10000);
 
-  return new Response(JSON.stringify(data), { status: 200 });
+  if (error) {
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  }
+
+  return new Response(JSON.stringify(data), {
+    headers: { "Content-Type": "application/json" }
+  });
 }

@@ -32,7 +32,6 @@ import DashboardLayout from "../layouts/DashboardLayout.astro";
     </div>
   </section>
 
-  <!-- MODAL -->
   <div
     id="modal"
     class="fixed inset-0 hidden bg-black/60 flex items-center justify-center z-50"
@@ -62,7 +61,6 @@ h1 {
   letter-spacing: .5px;
 }
 
-/* -------- BUSCADOR -------- */
 #search {
   width: 640px;
   padding: 12px 16px;
@@ -79,7 +77,6 @@ h1 {
   color: #9fb9d3;
 }
 
-/* -------- TABLA -------- */
 table {
   width: 100%;
   border-collapse: separate;
@@ -105,7 +102,6 @@ tbody tr:hover {
   background: rgba(80,150,255,0.12);
 }
 
-/* -------- CELDAS -------- */
 td {
   position: relative;
   padding: 14px 16px;
@@ -116,8 +112,6 @@ td {
   white-space: normal;
   overflow: hidden;
 }
-
-/* ✅ SEPARADOR HORIZONTAL REAL */
 tbody td {
   border-bottom: 1px solid rgba(255,255,255,.12);
 }
@@ -126,7 +120,6 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* -------- SEPARADOR VERTICAL -------- */
 td:not(:last-child)::after {
   content: "";
   position: absolute;
@@ -140,15 +133,12 @@ tbody tr:hover td {
   border-bottom: 1px solid rgba(120,180,255,.45);
 }
 
-/* -------- ANCHOS -------- */
 th:nth-child(1), td:nth-child(1) { width: 110px; }
 th:nth-child(2), td:nth-child(2) { width: 160px; }
 th:nth-child(3), td:nth-child(3) { width: 340px; }
 th:nth-child(4), td:nth-child(4) { width: 520px; }
 th:nth-child(5), td:nth-child(5) { width: 300px; }
 
-
-/* -------- RESALTADO -------- */
 mark {
   background: #ffd54f;
   color: #000;
@@ -156,7 +146,6 @@ mark {
   border-radius: 4px;
 }
 
-/* -------- COMPACTO -------- */
 .compact td {
   padding: 10px 14px;
   font-size: 13px;

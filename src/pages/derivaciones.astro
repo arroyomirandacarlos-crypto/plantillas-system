@@ -1,8 +1,195 @@
 ---
 import DashboardLayout from "../layouts/DashboardLayout.astro";
+import "../assets/giftcards.css";
 ---
 
 <DashboardLayout>
-  <h1> Derivaciones</h1>
-  <p>EN CONSTRUCCION MUY PRONTO</p>
+
+<section class="p-6 text-white">
+
+<h1 class="text-2xl font-bold mb-6">Derivaciones</h1>
+
+<div class="cards-container">
+
+<div class="cards-search">
+<input id="search" placeholder="Buscar derivacion..." />
+</div>
+
+<div id="cards" class="cards-grid"></div>
+
+</div>
+
+</section>
+
+<script is:inline>
+
+const container = document.getElementById("cards");
+const search = document.getElementById("search");
+
+let derivaciones = [];
+
+/* ICONOS */
+
+const iconMap = {
+
+"DERIVACION JIRA": "/plantillas-system/imagenes/jira.svg",
+"CIERRE TICKET FEEDBACK": "/plantillas-system/imagenes/feedback.svg",
+"DERIVACION MICRO INFORMATICA": "/plantillas-system/imagenes/monitor.svg",
+"DERIVACION ACCESOS TI": "/plantillas-system/imagenes/secure.svg",
+"DERIVACION SEGURIDAD TECNOLOGICA": "/plantillas-system/imagenes/secure.svg",
+"DERIVACION SERVICIOS TI": "/plantillas-system/imagenes/system-administration.svg",
+"DERIVACION REDES TI": "/plantillas-system/imagenes/monitor.svg",
+"DERIVACION INCIDENCIA TOPAZ": "/plantillas-system/imagenes/user-lock.svg",
+"DERIVACION INCIDENCIAS WORKVIVO": "/plantillas-system/imagenes/user-lock.svg"
+
+};
+
+function getIcon(area){
+
+const key = area?.toUpperCase() || "";
+
+return iconMap[key] || `${base}/custom.svg`;
+
+}
+
+/* CARGAR DATOS */
+
+async function loadDerivaciones(){
+
+try{
+
+const res = await fetch(`/plantillas-system/api/derivaciones`);
+
+derivaciones = await res.json();
+
+renderCards(derivaciones);
+
+}catch(err){
+
+console.error("Error cargando derivaciones",err);
+
+}
+
+}
+
+/* RENDER CARDS */
+
+function renderCards(data){
+
+container.innerHTML = data.map(d=>`
+
+<div class="flip-card">
+
+<div class="flip-inner">
+
+<div class="card-face card-front">
+
+<img src="${getIcon(d.area_derivations)}" class="card-icon">
+
+<div class="card-title">
+${d.area_derivations}
+</div>
+
+<div class="card-buttons">
+
+<button class="btn-card ver-btn">
+VER
+</button>
+
+<button class="btn-card copiar-btn"
+data-text="${encodeURIComponent(d.contenido_derivations)}">
+COPIAR
+</button>
+
+</div>
+
+</div>
+
+<div class="card-face card-back">
+
+<div class="card-content">
+${d.contenido_derivations}
+</div>
+
+<button class="btn-card volver-btn">
+VOLVER
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+attachEvents();
+
+}
+
+/* EVENTOS */
+
+function attachEvents(){
+
+document.querySelectorAll(".flip-card").forEach(card=>{
+
+const ver = card.querySelector(".ver-btn");
+const volver = card.querySelector(".volver-btn");
+
+ver.onclick=()=>card.classList.add("flipped");
+
+volver.onclick=()=>card.classList.remove("flipped");
+
+
+card.addEventListener("mouseleave",()=>{
+
+card.classList.remove("flipped");
+
+});
+
+});
+
+document.querySelectorAll(".copiar-btn").forEach(btn=>{
+
+btn.onclick=()=>{
+
+const text = decodeURIComponent(btn.dataset.text);
+
+navigator.clipboard.writeText(text);
+
+btn.innerText="COPIADO";
+
+setTimeout(()=>{
+
+btn.innerText="COPIAR";
+
+},1500);
+
+};
+
+});
+
+}
+
+/* BUSCADOR */
+
+search.addEventListener("input",()=>{
+
+const q = search.value.toLowerCase();
+
+const filtered = derivaciones.filter(d =>
+
+d.area_derivations?.toLowerCase().includes(q) ||
+d.contenido_derivations?.toLowerCase().includes(q)
+
+);
+
+renderCards(filtered);
+
+});
+
+loadDerivaciones();
+
+</script>
+
 </DashboardLayout>
